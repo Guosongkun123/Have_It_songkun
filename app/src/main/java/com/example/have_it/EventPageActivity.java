@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ public class EventPageActivity extends AppCompatActivity {
         String selected_title = i.getStringExtra("habit");
         eventList = findViewById(R.id.all_event_list);
 
-        final Intent addeventIntent = new Intent(this, AddEvent.class);
+        final Intent addeventIntent = new Intent(this, AddEventActivity.class);
         eventDataList = new ArrayList<>();
         EventAdapter = new EventList(this, eventDataList);
         eventList.setAdapter(EventAdapter);
@@ -65,7 +66,7 @@ public class EventPageActivity extends AppCompatActivity {
 
             }
         });
-        final Intent view_editEventIntent = new Intent(this, ViewEditEvent.class);
+        final Intent view_editEventIntent = new Intent(this, ViewEditEventActivity.class);
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -98,6 +99,15 @@ public class EventPageActivity extends AppCompatActivity {
 
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
