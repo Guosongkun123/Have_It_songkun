@@ -117,7 +117,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d("Delete Habit", "Habit data has been deleted successfully!");
-                                finish();
+//                                finish();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -126,6 +126,23 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                                 Log.w("Delete Habit", "Error deleting document", e);
                             }
                         });
+
+
+                habitListReference.document(selected_title).collection("Evenlist").document()
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("Delete Collection", "Habit data has been deleted successfully!");
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("Delete Collection", "Error deleting document", e);
+                            }
+                        });;
 
             }
         });
@@ -198,7 +215,6 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                 }
             }
         });
-
         final Intent eventListIntent = new Intent(this, EventPageActivity.class);
         eventList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +226,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -221,4 +238,6 @@ public class ViewEditHabitActivity extends AppCompatActivity {
     }
 
 
+
 }
+
