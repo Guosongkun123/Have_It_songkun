@@ -178,6 +178,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                     data.put("dateStart", startDateTimestamp);
                     data.put("weekdayReg", weekdayReg);
 
+
                     habitListReference.document(selected_title)
                             .delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
