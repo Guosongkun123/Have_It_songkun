@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -70,14 +71,14 @@ public class ViewEditHabitActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 titleText.setText(selected_title);
-                reasonText.setText((String)documentSnapshot.getData().get("reason"));
-                SimpleDateFormat spf= new SimpleDateFormat("yyyy-MM-dd");
-                startDateText.setText(spf.format(((Timestamp)documentSnapshot.getData().get("dateStart")).toDate()));
+                reasonText.setText((String) documentSnapshot.getData().get("reason"));
+                SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+                startDateText.setText(spf.format(((Timestamp) documentSnapshot.getData().get("dateStart")).toDate()));
 
                 List<Integer> weekdayReg = new ArrayList<>(7);
 
                 Integer c = 1;
-                for (boolean each : (ArrayList<Boolean>)documentSnapshot.getData().get("weekdayReg")) {
+                for (boolean each : (ArrayList<Boolean>) documentSnapshot.getData().get("weekdayReg")) {
                     if (each) {
                         weekdayReg.add(c);
                     }
@@ -139,22 +140,22 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                 try {
                     startDate = new SimpleDateFormat("yyyy-MM-dd")
                             .parse(startDateText.getText().toString());
-                } catch (ParseException e){
-                    Toast.makeText(getApplicationContext(),"Not valid date", Toast.LENGTH_LONG).show();
+                } catch (ParseException e) {
+                    Toast.makeText(getApplicationContext(), "Not valid date", Toast.LENGTH_LONG).show();
                     return;
                 }
                 final Timestamp startDateTimestamp = new Timestamp(startDate);
 
                 List<Integer> selectedDays = weekdaysPicker.getSelectedDays();
-                Boolean[] defaultReg= {false, false, false, false, false, false, false};
+                Boolean[] defaultReg = {false, false, false, false, false, false, false};
                 List<Boolean> weekdayReg = new ArrayList<>(Arrays.asList(defaultReg));
-                for (int each : selectedDays){
-                    weekdayReg.set(each-1,true);
+                for (int each : selectedDays) {
+                    weekdayReg.set(each - 1, true);
                 }
 
                 HashMap<String, Object> data = new HashMap<>();
 
-                if (title.length()>0){
+                if (title.length() > 0) {
                     data.put("title", title);
                     data.put("reason", reason);
                     data.put("dateStart", startDateTimestamp);
@@ -191,7 +192,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     // These are a method which gets executed if there’s any problem
                                     Log.d("Adding Habit", "Habit data could not be edited!" + e.toString());
-                                    Toast.makeText(getApplicationContext(),"Not being able to edit data, please check duplication title", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Not being able to edit data, please check duplication title", Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
@@ -202,10 +203,13 @@ public class ViewEditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 eventListIntent.putExtra("habit", selected_title);
-               // Toast.makeText( getApplicationContext(),  selected_title, Toast.LENGTH_SHORT).show();
+                // Toast.makeText( getApplicationContext(),  selected_title, Toast.LENGTH_SHORT).show();
 
                 startActivity(eventListIntent);
             }
         });
     }
+
+
+
 }

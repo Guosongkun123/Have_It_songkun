@@ -51,163 +51,141 @@ public class ViewEditEvent extends AppCompatActivity {
          db = FirebaseFirestore.getInstance();
         Intent i = getIntent();
         String selected_event = i.getStringExtra("event");
+        String selected_habit = i.getStringExtra("habit");
 
 
-//        final CollectionReference habitListReference = db.collection("Users")
-//                .document(selected_event).collection("Eventlist");
-//        titleText = findViewById(R.id.habit_title_editText_viewedit);
-//        reasonText = findViewById(R.id.habit_reason_editText_viewedit);
-//        weekdaysPicker = (WeekdaysPicker) findViewById(R.id.habit_weekday_selection_viewedit);
-//        startDateText = findViewById(R.id.habit_start_date_viewedit);
-//        confirm = findViewById(R.id.confirm_button_viewedit);
-//        delete = findViewById(R.id.delete_button);
-//        eventList = findViewById(R.id.event_list_button);
-//
-//
-//        Intent i = getIntent();
-//        String selected_title = i.getStringExtra("habit");
-//
-//        habitListReference.document(selected_title).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                titleText.setText(selected_title);
-//                reasonText.setText((String)documentSnapshot.getData().get("reason"));
-//                SimpleDateFormat spf= new SimpleDateFormat("yyyy-MM-dd");
-//                startDateText.setText(spf.format(((Timestamp)documentSnapshot.getData().get("dateStart")).toDate()));
-//
-//                List<Integer> weekdayReg = new ArrayList<>(7);
-//
-//                Integer c = 1;
-//                for (boolean each : (ArrayList<Boolean>)documentSnapshot.getData().get("weekdayReg")) {
-//                    if (each) {
-//                        weekdayReg.add(c);
-//                    }
-//                    c++;
-//                }
-//                weekdaysPicker.setSelectedDays(weekdayReg);
-//            }
-//        });
-//
-//
-//        startDateText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Calendar cldr = Calendar.getInstance();
-//                int day = cldr.get(Calendar.DAY_OF_MONTH);
-//                int month = cldr.get(Calendar.MONTH);
-//                int year = cldr.get(Calendar.YEAR);
-//                // date picker dialog
-//                picker = new DatePickerDialog(nowActivity,
-//                        new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                                startDateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-//                            }
-//                        }, year, month, day);
-//                picker.show();
-//            }
-//        });
-//
+        final CollectionReference EventListReference = db.collection("Users")
+                .document("DefaultUser").collection("HabitList").document(selected_habit).collection("Eventlist");
+        eventText = findViewById(R.id.event_editText_viewedit);
+
+        DateText = findViewById(R.id.event_date_viewedit);
+        confirm = findViewById(R.id.confirm_button_viewedit);
+        delete = findViewById(R.id.delete_button);
+
+
+
+
+
+        EventListReference.document(selected_event).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                eventText.setText((String)documentSnapshot.getData().get("event"));
+
+                SimpleDateFormat spf= new SimpleDateFormat("yyyy-MM-dd");
+                DateText.setText(spf.format(((Timestamp)documentSnapshot.getData().get("date")).toDate()));
+
+
+            }
+        });
+
+
+        DateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(nowActivity,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                DateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText( getApplicationContext(),  selected_event, Toast.LENGTH_SHORT).show();
-//                habitListReference.document(selected_title)
-//                        .delete()
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                Log.d("Delete Habit", "Habit data has been deleted successfully!");
-//                                finish();
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.w("Delete Habit", "Error deleting document", e);
-//                            }
-//                        });
+                EventListReference.document(selected_event)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("Delete Event", "Habit data has been deleted successfully!");
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("Delete event", "Error deleting document", e);
+                            }
+                        });
 
             }
         });
-//
-//        confirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Retrieving the city name and the province name from the EditText fields
-//                final String title = titleText.getText().toString();
-//                final String reason = reasonText.getText().toString();
-//                Date startDate = new Date();
-//                try {
-//                    startDate = new SimpleDateFormat("yyyy-MM-dd")
-//                            .parse(startDateText.getText().toString());
-//                } catch (ParseException e){
-//                    Toast.makeText(getApplicationContext(),"Not valid date", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                final Timestamp startDateTimestamp = new Timestamp(startDate);
-//
-//                List<Integer> selectedDays = weekdaysPicker.getSelectedDays();
-//                Boolean[] defaultReg= {false, false, false, false, false, false, false};
-//                List<Boolean> weekdayReg = new ArrayList<>(Arrays.asList(defaultReg));
-//                for (int each : selectedDays){
-//                    weekdayReg.set(each-1,true);
-//                }
-//
-//                HashMap<String, Object> data = new HashMap<>();
-//
-//                if (title.length()>0){
-//                    data.put("title", title);
-//                    data.put("reason", reason);
-//                    data.put("dateStart", startDateTimestamp);
-//                    data.put("weekdayReg", weekdayReg);
-//
-//                    habitListReference.document(selected_title)
-//                            .delete()
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    Log.d("Delete Habit", "Habit data has been deleted successfully!");
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.w("Delete Habit", "Error deleting document", e);
-//                                }
-//                            });
-//
-//                    habitListReference
-//                            .document(title)
-//                            .set(data)
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    // These are a method which gets executed when the task is succeeded
-//                                    Log.d("Adding Habit", "Habit data has been edited successfully!");
-//                                    finish();
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    // These are a method which gets executed if there’s any problem
-//                                    Log.d("Adding Habit", "Habit data could not be edited!" + e.toString());
-//                                    Toast.makeText(getApplicationContext(),"Not being able to edit data, please check duplication title", Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//                }
-//            }
-//        });
-//        final Intent eventListIntent = new Intent(this, EventPageActivity.class);
-//        eventList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                eventListIntent.putExtra("habit", selected_title);
-//                // Toast.makeText( getApplicationContext(),  selected_title, Toast.LENGTH_SHORT).show();
-//
-//                startActivity(eventListIntent);
-//            }
-//        });
+////
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Retrieving the city name and the province name from the EditText fields
+                final String event = eventText.getText().toString();
+
+                Date startDate = new Date();
+                try {
+                    startDate = new SimpleDateFormat("yyyy-MM-dd")
+                            .parse(DateText.getText().toString());
+                } catch (ParseException e){
+                    Toast.makeText(getApplicationContext(),"Not valid date", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                final Timestamp startDateTimestamp = new Timestamp(startDate);
+
+
+
+                HashMap<String, Object> data = new HashMap<>();
+
+                if (event.length()>0){
+                    data.put("event", event);
+
+                    data.put("date", startDateTimestamp);
+
+
+                    EventListReference.document(selected_event)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("Delete event", "event data has been deleted successfully!");
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("Delete event", "Error deleting document", e);
+                                }
+                            });
+
+                    EventListReference
+                            .document(event)
+                            .set(data)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d("Adding event", "event data has been edited successfully!");
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d("Adding event", "Habit data could not be edited!" + e.toString());
+                                    Toast.makeText(getApplicationContext(),"Not being able to edit data, please check duplication event", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            }
+        });
+
     }
 }
