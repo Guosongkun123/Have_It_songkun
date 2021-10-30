@@ -20,7 +20,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class EventPageActivity extends AppCompatActivity {
     FloatingActionButton addEvent;
@@ -56,8 +55,8 @@ public class EventPageActivity extends AppCompatActivity {
                 eventDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
-                    String event = (String) doc.getData().get("title");
-                    Timestamp Date = (Timestamp) doc.getData().get("dateStart");
+                    String event = (String) doc.getData().get("event");
+                    Timestamp Date = (Timestamp) doc.getData().get("date");
                     Date dateStart = Date.toDate();
 
                     eventDataList.add(new Event(event,dateStart));
@@ -73,6 +72,7 @@ public class EventPageActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 //                view_editHabitIntent.putExtra(EXTRA_MESSAGE, habitDataList.get(position));
                 view_editEventIntent.putExtra("event", eventDataList.get(position).getEvent());
+                view_editEventIntent.putExtra("habit", selected_title);
 
                 startActivity(view_editEventIntent);
 
@@ -99,4 +99,5 @@ public class EventPageActivity extends AppCompatActivity {
 
 
     }
+
 }

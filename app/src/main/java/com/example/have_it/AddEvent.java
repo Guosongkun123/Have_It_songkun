@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,9 +34,9 @@ import java.util.List;
 
 public class AddEvent extends AppCompatActivity {
     FirebaseFirestore db;
-    EditText titleText;
+    EditText eventText;
 
-    TextView startDateText;
+    TextView DateText;
 
     Button addevent;
     DatePickerDialog picker;
@@ -51,15 +52,15 @@ public class AddEvent extends AppCompatActivity {
         final CollectionReference eventListReference = db.collection("Users")
                 .document("DefaultUser").collection("HabitList").document(selected_title).collection("Eventlist");
 
-        titleText = findViewById(R.id.event_editText);
+        eventText = findViewById(R.id.event_editText);
 
 
-        startDateText = findViewById(R.id.date);
+        DateText = findViewById(R.id.date);
         addevent = findViewById(R.id.addevent_button);
 
 
 
-        startDateText.setOnClickListener(new View.OnClickListener() {
+        DateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -71,7 +72,7 @@ public class AddEvent extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                startDateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                DateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                             }
                         }, year, month, day);
                 picker.show();
@@ -84,12 +85,12 @@ public class AddEvent extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),selected_title, Toast.LENGTH_LONG).show();
                 // Retrieving the city name and the province name from the EditText fields
-                final String title = titleText.getText().toString();
+                final String title = eventText.getText().toString();
 
                 Date startDate = new Date();
                 try {
                     startDate = new SimpleDateFormat("yyyy-MM-dd")
-                            .parse(startDateText.getText().toString());
+                            .parse(DateText.getText().toString());
                 } catch (ParseException e){
                     Toast.makeText(getApplicationContext(),"Not valid date", Toast.LENGTH_LONG).show();
                     return;
@@ -108,12 +109,12 @@ public class AddEvent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Retrieving the city name and the province name from the EditText fields
-                final String title = titleText.getText().toString();
+                final String event = eventText.getText().toString();
 
                 Date startDate = new Date();
                 try {
                     startDate = new SimpleDateFormat("yyyy-MM-dd")
-                            .parse(startDateText.getText().toString());
+                            .parse(DateText.getText().toString());
                 } catch (ParseException e){
                     Toast.makeText(getApplicationContext(),"Not valid date", Toast.LENGTH_LONG).show();
                     return;
@@ -124,20 +125,20 @@ public class AddEvent extends AppCompatActivity {
 
                 HashMap<String, Object> data = new HashMap<>();
 
-                if (title.length()>0){
-                    data.put("title", title);
+                if (event.length()>0){
+                    data.put("event", event);
 
-                    data.put("dateStart", startDateTimestamp);
+                    data.put("date", startDateTimestamp);
 
 
                     eventListReference
-                            .document(title)
+                            .document(event)
                             .set(data)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     // These are a method which gets executed when the task is succeeded
-                                    Log.d("Adding Habit", "Habit data has been added successfully!");
+                                    Log.d("Adding event", "event data has been added successfully!");
                                     finish();
                                 }
                             })
@@ -145,12 +146,14 @@ public class AddEvent extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     // These are a method which gets executed if there’s any problem
-                                    Log.d("Adding Habit", "Habit data could not be added!" + e.toString());
+                                    Log.d("Adding event", "Habit event could not be added!" + e.toString());
                                     Toast.makeText(getApplicationContext(),"Not being able to add data, please check duplication title", Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
             }
         });
+
     }
+
 }

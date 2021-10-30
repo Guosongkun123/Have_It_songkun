@@ -9,24 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Have_It">
-<!--        <activity-->
-<!--            android:name=".AddEvent"-->
-<!--            android:parentActivityName=".EventPageActivity">-->
+        <!--        <activity-->
+        <!--            android:name=".AddEvent"-->
+        <!--            android:parentActivityName=".EventPageActivity">-->
 
-<!--        &lt;!&ndash; The meta-data tag is required if you support API level 15 and lower &ndash;&gt;-->
-<!--        <meta-data-->
-<!--            android:name="android.support.PARENT_ACTIVITY"-->
-<!--            android:value=".EventPageActivity" />-->
-<!--        </activity>-->
-                <activity
-                    android:name=".AddEvent"
-                    android:parentActivityName=".AddHabitActivity">
+        <!--        &lt;!&ndash; The meta-data tag is required if you support API level 15 and lower &ndash;&gt;-->
+        <!--        <meta-data-->
+        <!--            android:name="android.support.PARENT_ACTIVITY"-->
+        <!--            android:value=".EventPageActivity" />-->
+        <!--        </activity>-->
+        <activity
+            android:name=".AddEvent"
+            android:parentActivityName=".AddHabitActivity">
 
-                <!-- The meta-data tag is required if you support API level 15 and lower -->
-                <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".AddHabitActivity" />
-                </activity>
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AddHabitActivity" />
+        </activity>
         <activity
             android:name=".ViewEditEvent"
             android:parentActivityName=".AddHabitActivity">
