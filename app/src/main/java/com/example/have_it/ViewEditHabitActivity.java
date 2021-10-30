@@ -198,6 +198,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                 }
             }
         });
+
         final Intent eventListIntent = new Intent(this, EventPageActivity.class);
         eventList.setOnClickListener(new View.OnClickListener() {
             @Override
