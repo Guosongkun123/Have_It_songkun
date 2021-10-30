@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,7 +33,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class ViewEditEvent extends AppCompatActivity {
+public class ViewEditEventActivity extends AppCompatActivity {
     FirebaseFirestore db;
     EditText eventText;
 
@@ -187,5 +188,14 @@ public class ViewEditEvent extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

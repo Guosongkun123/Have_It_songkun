@@ -19,33 +19,6 @@
         <!--            android:value=".EventPageActivity" />-->
         <!--        </activity>-->
         <activity
-            android:name=".AddEvent"
-            android:parentActivityName=".AddHabitActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AddHabitActivity" />
-        </activity>
-        <activity
-            android:name=".ViewEditEvent"
-            android:parentActivityName=".AddHabitActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AddHabitActivity" />
-        </activity>
-        <activity
-            android:name=".EventPageActivity"
-            android:parentActivityName=".HabitPageActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HabitPageActivity" />
-        </activity>
-        <activity
             android:name=".HabitPageActivity"
             android:exported="true">
             <intent-filter>
@@ -71,6 +44,34 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HabitPageActivity" />
+        </activity>
+
+        <activity
+            android:name=".EventPageActivity"
+            android:parentActivityName=".ViewEditHabitActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HabitPageActivity" />
+        </activity>
+        <activity
+            android:name=".AddEventActivity"
+            android:parentActivityName=".EventPageActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AddHabitActivity" />
+        </activity>
+        <activity
+            android:name=".ViewEditEventActivity"
+            android:parentActivityName=".EventPageActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AddHabitActivity" />
         </activity>
     </application>
 

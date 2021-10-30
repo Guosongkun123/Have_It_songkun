@@ -198,6 +198,7 @@ public class ViewEditHabitActivity extends AppCompatActivity {
                 }
             }
         });
+
         final Intent eventListIntent = new Intent(this, EventPageActivity.class);
         eventList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,7 +210,15 @@ public class ViewEditHabitActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }
